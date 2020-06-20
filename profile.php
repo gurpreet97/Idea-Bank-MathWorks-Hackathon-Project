@@ -13,7 +13,35 @@
 
   $row = mysqli_fetch_array($result);
   $MWpoints = $row['MWpoints'];
+
+
+  $query1 = "SELECT sum(contribution) as inv from contributors where c_name = '$user'";
+  $result1 = mysqli_query($conn,$query1);
+  $result = mysqli_fetch_array($result1);
+  $inv = $result['inv'];
+
+  $status = "In progress";
+  $query1 = "SELECT count(*) as project_in_progress from post where name = '$user' and current_status = '$status'";
+  $result1 = mysqli_query($conn,$query1);
+  $result = mysqli_fetch_array($result1);
+  $project_in_progress = $result['project_in_progress'];
   
+
+
+  $status = "Idea proposed";
+  $query1 = "SELECT count(*) as project_proposed from post where name = '$user' and current_status = '$status'";
+  $result1 = mysqli_query($conn,$query1);
+  $result = mysqli_fetch_array($result1);
+  $project_proposed = $result['project_proposed'];
+
+
+
+  $status = "Completed";
+  $query1 = "SELECT count(*) as project_completed from post where name = '$user' and current_status = '$status'";
+  $result1 = mysqli_query($conn,$query1);
+  $result = mysqli_fetch_array($result1);
+  $project_completed = $result['project_completed'];
+
 ?>
 
 <!-- main -->
@@ -38,13 +66,15 @@
        
         <div class="media-body">
           <h2 class="media-heading"><?php echo $user; ?></h2>
-          <p>Email: <?php echo $email; ?> </p>
+          <p>MWpoints: <?php echo $MWpoints; ?> </p>
           
-          <p>Gender: <?php echo $gender; ?> </p>
+          <p>Invested MWpoints: <?php echo $inv; ?> </p>
           
-          <p>Phone Number: <?php echo $ph_no; ?> </p>
+          <p>Projects in progress: <?php echo $project_in_progress; ?> </p>
           
-          <p>Date of Birth: <?php echo $dob; ?> </p>
+          <p>Projects proposed: <?php echo $project_proposed; ?> </p>
+
+          <p>Projects completed: <?php echo $project_completed; ?> </p>
           <br>
         </div>
       </div>
@@ -59,118 +89,95 @@
       <div>
         <!-- post -->
         <?php 
-          $sql = "SELECT * from user_post_creation inner join post on user_post_creation.post_id = post.post_id where name = '$user' and ( privacy = 'public' or (privacy = 'friend' and '$loggedin' in (select friend_name from have_friend  where name  = '$user') ) or name = '$loggedin') order by post_creation_time desc";
+          $sql = "SELECT * from post where name = '$user' order by post_creation_time desc ";
 
           $result = mysqli_query($conn,$sql);
 
           if (mysqli_num_rows($result) > 0) {
             while($post = $result->fetch_assoc()) {
-              $creation_id = $post['post_creation_id'];
-              $query1 = "SELECT count(*) as likes from like_post where creation_id = '$creation_id'";
-              $num_likes1 = mysqli_query($conn,$query1);
-              $num_likes = mysqli_fetch_array($num_likes1);
+              $post_id = $post['post_id'];
+              $query1 = "SELECT sum(contribution) as contr from contributors where post_id = '$post_id'";
+              $MWpoints1 = mysqli_query($conn,$query1);
+              $MWpoints = mysqli_fetch_array($MWpoints1);
 
-              $query2 = "SELECT count(*) as comments from comment where creation_id = '$creation_id'";
+              $query2 = "SELECT count(*) as comments from comment where post_id = '$post_id'";
               $num_comm1 = mysqli_query($conn,$query2);
               $num_comm = mysqli_fetch_array($num_comm1);
+
+
+              $type = $post['type'];
+              $creation_type = "Posted";
+
               ?>
                 <div class="panel panel-default">
             <div class="panel-footer">
-              <span><?php echo $post['creation_type']; ?> on <?php echo $post['post_creation_time']; ?> by <?php echo $post['name']; ?></span> 
+              <span><?php echo $creation_type; ?> on <?php echo $post['post_creation_time']; ?> by <?php echo $post['name']; ?></span> 
             </div>
             <div class="panel-body">
-              <h4><?php echo $post['post_heading']; ?></h4>
+              <h3><?php echo $post['post_heading']; ?></h3>
               <p><?php echo $post['post_text']; ?></p>
-             <!--  <embed src='data:".$post['mime'].";base64,".base64_encode($post['post_image'])."' width='200'/> -->
-              <!-- <embed src='data:".$post["mime"].";base64,".base64_encode($post["post_image"])."' width="200" /> -->
-               <?php
-                // header("Content-type: image/jpeg");
-                // $data = $post['post_image'][0][0];
-                // header("Content-Type: image/jpeg\n");
-                // header("Content-Transfer-Encoding: binary\n");
-                // header("Content-length: " . strlen($data) . "\n"`);
-                // print($data);
-                //  echo $post['post_image'];
-               ?> 
               
-              <img src="img/my_avatar.png" class="media-object" style="width: 128px; height: 100px;">
             </div>
             <div class="panel-footer" style = "height: 50px;">
-   
+
               <?php
-                 $likes = "likes.php?creation_id=".$creation_id;
+                 $contribution = "contribution.php?post_id=".$post_id;
                ?>
- 
-               <span class="pull-left"><a class="text-primary" style = "padding: 5px" href="<?php echo $likes; ?>">  
 
-
-
+               <span class="pull-left"><a class="text-primary" style = "padding: 5px" href="<?php echo $contribution; ?>">  
                 <?php 
-                  echo $num_likes['likes']." Likes";
+                  echo $MWpoints['contr']." MWpoints";
                 ?>
                 </a></span>
-               <span class="pull-left"><a class="text-secondary" style = "padding: 5px" href=<?php     echo "comment.php?creation_id=".$creation_id; ?>> 
+               <span class="pull-left"><a class="text-secondary" style = "padding: 5px" href=<?php     echo "comment.php?post_id=".$post_id; ?>> 
                 <?php 
                   echo $num_comm['comments']." Comments";
                 ?>  
                </a></span>
                <?php 
+                     // $link1 = "post_creation.php?post_id=".$post['post_id']."&privacy=".$privacy."&creation_type=Shared";
 
-                      $privacy = $post['privacy'];
-                     $link1 = "post_creation.php?post_id=".$post['post_id']."&privacy=".$post['privacy']."&creation_type=Shared";
+                     // $link2 = "delete-post.php?post_id=".$post['post_id'];
 
-                     $link2 = "delete-post.php?creation_id=".$post['post_creation_id'];
+                     // $link3 = "post_creation.php?post_id=".$post['post_id']."&privacy=".$privacy."&creation_type=Posted";
 
-                      $link3 = "post_creation.php?post_id=".$post['post_id']."&privacy=".$privacy."&creation_type=Posted";
-
-                      
                       if($_SESSION['name'] != "") {
                
-               if($post['name']==$loggedin){
+               if($post['name']==$user){
                ?>
 
-              <span class="pull-right"><a class="text-danger" style = "padding: 5px" href="<?php echo $link2; ?>">  delete  </a></span>
-            <?php } 
-              if($post['name']!=$loggedin){
+              
+            <?php }?>
+
+               <span class="pull-right"><a class="text-secondary" style = "padding: 5px" href="<?php echo $link3; ?>"> <?php echo $post['current_status'];?>
+                  </a></span>
+
+            <?php
+
+               if($post['name']!=$user){
             ?>
 
-             <span class="pull-right"><a class="text-secondary" style = "padding: 5px" href="<?php echo $link3; ?>">Copy
-                  </a></span>
-              <span class="pull-right"><a class="text-secondary" style = "padding: 5px" href="<?php echo $link1; ?>">Share
-                <!-- <?php 
-                  //   $link1 = "post_creation.php?post_id=".$post['post_id']."&privacy=public&creation_type=Shared";
-                  //   $link2 = "post_creation.php?post_id=".$post['post_id']."&privacy=friend&creation_type=Shared";
-                  //   $link3 = "post_creation.php?post_id=".$post['post_id']."&privacy=private&creation_type=Shared";
-                  // ?>
- -->
-                <!-- <div class="dropdown">
-                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-                  Share
-                </button>
-                <div class="dropdown-menu">
-                  <a class="dropdown-item" href="<?php //echo $link1;  ?>  ">Public</a>
-                  <a class="dropdown-item" href="<?php //echo $link2;  ?>">Only Friends</a>
-                  <a class="dropdown-item" href="<?php //echo $link3;  ?>">Only me</a>
-                </div>
-              </div> -->
-              </a></span>
+            
+
+             
 
             <?php } ?>
-              <span class="pull-right"><a class="text-secondary" style = "padding: 5px" href=<?php     echo "comment.php?creation_id=".$creation_id; ?>>  comment  </a></span>
-              <span class="pull-right"><a class="text-primary" style = "padding: 5px" href= <?php     echo "like_post.php?creation_id=".$creation_id; ?> > 
-               <?php  
-                  $query5 = "SELECT * from like_post where creation_id = '$creation_id' and name = '$user' ";
+              <span class="pull-right"><a class="text-secondary" style = "padding: 5px" href=<?php     echo "comment.php?post_id=".$post_id; ?>>  comment  </a></span>
+              <span class="pull-right"><a class="text-primary" style = "padding: 5px" href= <?php     echo "contribute_post.php?post_id=".$post_id; ?> > 
+              <?php  
+                   $query5 = "SELECT * from contributors where post_id = '$post_id' and c_name = '$user' ";
+
                   $result5 = mysqli_query($conn,$query5);
                   if(mysqli_num_rows($result5)==0){
-                   echo 'like';
+                   echo 'Contribute(10 MWpoints)';
                   }
                   else{
-                    echo 'unlike';
+                    echo 'Already contributed';
                   }
                 ?>   
-                 </a></span>
+                </a></span>
 
-               <?php }?>
+              <?php }?>
 
             </div>
           </div>
