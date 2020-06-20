@@ -122,7 +122,7 @@
         <!-- ./post -->
       </div>
 
-      <h2>Contributed by</h2>
+      <h2>contributed by</h2>
    
       <?php 
       	$query3 = "SELECT * from contributors where post_id = '$post_id'";

@@ -24,6 +24,7 @@ create table comment(comment_id varchar(200) not null primary key,
 			comment_content text,
 			name varchar(50) , 
 			post_id varchar(200),
+			foreign key(post_id) references post(post_id),
 			foreign key(name) references user(name));
 
 

@@ -42,16 +42,47 @@
   $result = mysqli_fetch_array($result1);
   $project_completed = $result['project_completed'];
 
+ // COMMENT
+
+  // $sql = "SELECT * FROM post where current_status = 'Idea proposed' and type = 'idea' and name = '$user'";
+  // $sql2 = "SELECT * FROM post where current_status = 'In progress' and type = 'idea'  and name = '$user'";
+  // $sql3 = "SELECT * FROM post where current_status = 'Completed' and type = 'idea' and name = '$user'";
+  // $sql4 = "SELECT * FROM post where current_status = 'Idea proposed' and type = 'problem' and name = '$user'";
+  // $sql5 = "SELECT * FROM post where current_status = 'In progress' and type = 'problem' and name = '$user'";
+  // $sql6 = "SELECT * FROM post where current_status = 'Completed' and type = 'problem' and name = '$user'";
+  // $result = $conn->query($sql);
+  // $result2 = $conn->query($sql2);
+  // $result3 = $conn->query($sql3);
+  // $result4 = $conn->query($sql4);
+  // $result5 = $conn->query($sql5);
+  // $result6 = $conn->query($sql6);
+  // $pwd = getcwd();
+
+  // $cmd = '"C:\Program Files\MATLAB\R2020a\bin\matlab.exe" -automation -sd ' . $pwd . ' -r "chart(' .$result->num_rows .','.$result2->num_rows.','.$result3->num_rows .',' .$result4->num_rows .','. $result5->num_rows .','. $result6->num_rows .');exit" -wait -logfile log.txt';
+  // // exec
+  // $last_line = exec($cmd, $output, $retval);
+
+ // COMMENT
+
 ?>
 
 <!-- main -->
 <main class="container">
   <div class="row">
     <div class="col-md-3">
-
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <h4>STATS</h4>
+            <img src="main.png" alt="Girl in a jacket" width="300" height="300"/><br>;
+            <div><p> JEBGVSD </p></div>
+            <img src="idea.png" alt="Girl in a jacket" width="400" height="400"/><br>;
+            <img src="problem.png" alt="Girl in a jacket" width="400" height="400"/><br>;
+        </div>
+      </div>
 
       <!-- story -->
-     
+
+      
 
         <!-- /story -->
 
