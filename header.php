@@ -8,6 +8,12 @@
   <!-- <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css"> -->
   <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
   <link rel="stylesheet" type="text/css" href="css/style.css">
+
+
+<!-- added by Vishal  jquery file - download it and add it to js folder-->
+
+  <script src="js/jquery.min.js"></script>
+
 </head>
 <body>
   <!-- nav -->
@@ -28,6 +34,12 @@
           ?>
          
           <li><a href="home.php">Home</a></li>
+
+<!-- added by Vishal -->
+          <li><a href="redeem.php">Offers</a></li>
+<!-- only above line -->
+
+
           <li><a href="sample1.php">Statistics</a></li>
           <li><a href="profile.php?name=<?php echo $_SESSION['name']; ?>">Profile</a></li>
 
