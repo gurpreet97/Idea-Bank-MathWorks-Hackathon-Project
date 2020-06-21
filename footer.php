@@ -1,7 +1,7 @@
   <!-- footer -->
   <footer class="container text-center">
     <ul class="nav nav-pills pull-right">
-      <li>Idea Bank</li>
+      <!-- <li>Idea Bank</li> -->
     </ul>
   </footer>
   <!-- ./footer -->

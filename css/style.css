@@ -11,7 +11,7 @@ a {
 }
 
 .navbar-default {
-  background-color: hsl(0,80%,40%);
+  background-color: #21374c;
   border-color: #3b5998;
 }
 
@@ -24,12 +24,12 @@ a {
   color: #fff;
 }
 
-.navbar-default .navbar-nav>li>a {
+.navbar-default .navbar-nav > li > a {
   color: #fff;
 }
 
-.navbar-default .navbar-nav>li>a:focus,
-.navbar-default .navbar-nav>li>a:hover {
+.navbar-default .navbar-nav > li > a:focus,
+.navbar-default .navbar-nav > li > a:hover {
   color: #fff;
 }
 

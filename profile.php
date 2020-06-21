@@ -67,16 +67,45 @@
 ?>
 
 <!-- main -->
-<main class="container">
+<!-- <main class="container">
   <div class="row">
     <div class="col-md-3">
       <div class="panel panel-default">
         <div class="panel-body">
           <h4>STATS</h4>
             <img src="main.png" alt="Girl in a jacket" width="300" height="300"/><br>;
-            <div><p> JEBGVSD </p></div>
             <img src="idea.png" alt="Girl in a jacket" width="400" height="400"/><br>;
             <img src="problem.png" alt="Girl in a jacket" width="400" height="400"/><br>;
+        </div>
+      </div> -->
+
+<main class="container">
+<style>
+  .centerI {
+   
+  }
+</style>
+  <div class="row">
+    <div class="col-md-3">
+      <div class="panel panel-default">
+        <div class="panel-body">
+
+          <h3 style = "text-align: center;"><b>Statistics</b></h3>
+            <div style = "display: flex; flex-direction: column; align-items: center; justify-content: center;">
+            <img 
+              src="main.png" 
+              alt="pie chart" width="400" height="320" class = "centerI"
+              /><br>;
+              Legend 1
+            </div>
+            <div style = "display: flex; flex-direction: column; align-items: center; justify-content: center;">
+            <img src="idea.png" alt="pie chart" width="400" height="320" class = "centerI"/><br>
+            Legend 2
+            </div>
+            <div style = "display: flex; flex-direction: column; align-items: center; justify-content: center;">
+            <img src="problem.png" alt="pie chart" width="400" height="320" class = "centerI"/><br>
+            Legend 3
+            </div>
         </div>
       </div>
 
