@@ -49,12 +49,13 @@
 
 
               <?php
+                if($type == 'idea'){
                  $contribution = "contribution.php?post_id=".$post_id;
                ?>
 
                <span class="pull-left"><a class="text-primary" style = "padding: 5px" href="<?php echo $contribution; ?>">  
                 <?php 
-                  echo $MWpoints['contr']." MWpoints";
+                  echo $MWpoints['contr']." MWpoints";}
                 ?>
                 </a></span>
                 <span class="pull-left"><a class="text-secondary" style = "padding: 5px" href=<?php     echo "comment.php?post_id=".$post_id; ?>> 
@@ -102,7 +103,7 @@
                   $rr6 = $r6->fetch_assoc();
                   $rrr = $rr6['current_status'];
                   $result5 = mysqli_query($conn,$query5);
-                  if(mysqli_num_rows($result5)==0 && $rrr == 'In progress'){
+                  if((mysqli_num_rows($result5)==0 && $rrr == 'In progress') | $type == 'problem'){
 
                   }
                   else if(mysqli_num_rows($result5)==0){
