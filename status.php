@@ -73,22 +73,23 @@
 
                        if($_SESSION['name'] != "") {
                
-                        if($type == 'idea'){
-                          if($post['name']==$user){
-                          ?>
-                             <span class="pull-right"><a class="text-secondary" style = "padding: 5px" href="<?php echo "status.php?post_id=".$post_id; ?>"> <?php echo $post['current_status'];?>
-                             </a></span>
-                         
-                       <?php } else {?>
-           
-                          
-                         <span class="pull-right"><a class="text-secondary" style = "padding: 5px" > <?php echo $post['current_status'];?>
-                             </a></span>
-                       
-                             
-                        
-           
-                       <?php }} ?>
+               if($post['name']==$user){
+               ?>
+
+              
+            <?php }?>
+
+               <span class="pull-right"><a class="text-secondary" style = "padding: 5px" href="<?php echo $link3; ?>"> <?php echo $post['current_status'];?>
+                  </a></span>
+
+            <?php
+
+               if($post['name']!=$user){
+            ?>
+
+
+
+            <?php } ?>
               <span class="pull-right"><a class="text-secondary" style = "padding: 5px" href=<?php     echo "comment.php?post_id=".$post_id; ?>>  comment  </a></span>
 
 
@@ -97,15 +98,7 @@
                   $query5 = "SELECT * from contributors where post_id = '$post_id' and c_name = '$user' ";
 
                   $result5 = mysqli_query($conn,$query5);
-                  $q6 = "select current_status from post where post_id = '$post_id'";
-                  $r6 = mysqli_query($conn,$q6);
-                  $rr6 = $r6->fetch_assoc();
-                  $rrr = $rr6['current_status'];
-                  $result5 = mysqli_query($conn,$query5);
-                  if(mysqli_num_rows($result5)==0 && $rrr == 'In progress'){
-
-                  }
-                  else if(mysqli_num_rows($result5)==0){
+                  if(mysqli_num_rows($result5)==0){
                    echo 'Contribute(10 MWpoints)';
                   }
                   else{
@@ -128,19 +121,52 @@
         ?>
         <!-- ./post -->
       </div>
+      <?php
+      $dl = "select current_status from post where post_id='$post_id'";
+      $dlk = mysqli_query($conn,$dl);
+      $dllk  = $dlk->fetch_assoc();
+      
+      ?>
+      <?php
+       if($_SESSION['name'] != "" && $dllk['current_status'] != "Completed") {
+        ?>
 
-      <h2>contributed by</h2>
-   
+      <div class="panel-body">
+             <!-- comment form -->
+      <form method="post" action="change_status.php?post_id=<?php echo $post_id;  ?>" >
+        <div class="input-group">
+        <p>Change the status:</p>
+  <?php if($dllk['current_status'] == "Idea proposed"){ ?>
+  <input type="radio" id="prog" name="status" checked="checked" value="In progress">
+  <label for="prog">In progress</label><br>
+  <input type="radio" id="completed" name="status" value="Completed">
+  <label for="completed">Completed</label>
+  <?php } else if($dllk['current_status'] == "In progress"){ ?>
+  <input type="radio" id="cant" name="status" checked="checked" value="Cancel">
+  <label for="prog">Cannot complete</label><br>
+  <input type="radio" id="completed" name="status" value="Completed">
+  <label for="completed">Completed</label>
+  <?php } ?>
+  
+
+  <br> 
+            <button class="btn btn-success" type="submit" name="comment">Submit</button>
+          </span>
+        </div>
+      </form><hr>
+      <!-- ./comment form -->
+    </div>
+
+    <?php } ?>
       <?php 
-      	$query3 = "SELECT * from contributors where post_id = '$post_id'";
+      	$query3 = "SELECT current_status from post where post_id = '$post_id'";
       	$result3 = mysqli_query($conn,$query3);
       	if(mysqli_num_rows($result3)){
-      		while($row = mysqli_fetch_array($result3)){
+      		while($row = $result3->fetch_assoc()){
       			
-				$contributed_by = $row['c_name'];
 				?>
       			<div class="panel-footer">
-              	<a href="profile.php?name=<?php echo $row['c_name']; ?>"><h4><?php echo $contributed_by; ?></h4></a>
+              	<h4><?php echo $row['current_status']; ?></h4>
               	
              
             	</div>
@@ -149,7 +175,7 @@
       	}
       	else{?>
       		<div class="panel-footer">
-              <h4><?php echo "No likes yet"; ?></h4>
+              <h4><?php echo "No Comments yet"; ?></h4>
             </div>
 		<?php
       	}

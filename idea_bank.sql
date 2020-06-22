@@ -26,9 +26,11 @@ SET time_zone = "+00:00";
 --
 -- Table structure for table `comment`
 --
+create database idea_bank;
+use idea_bank;
 
 CREATE TABLE `comment` (
-  `comment_id` varchar(200) NOT NULL,
+  `comment_id` varchar(700) NOT NULL,
   `comment_content` text DEFAULT NULL,
   `name` varchar(50) DEFAULT NULL,
   `post_id` varchar(200) DEFAULT NULL
@@ -172,7 +174,7 @@ INSERT INTO `purchases` (`purchase_id`, `username`, `offer_id`, `cost`, `purchas
 CREATE TABLE `user` (
   `user_id` int(11) NOT NULL,
   `name` varchar(50) NOT NULL,
-  `MWpoints` int(11) DEFAULT NULL,
+  `MWpoints` int(11) DEFAULT 100,
   `password` varchar(250) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 

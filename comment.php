@@ -73,23 +73,22 @@
 
                        if($_SESSION['name'] != "") {
                
-               if($post['name']==$user){
-               ?>
-
-              
-            <?php }?>
-
-               <span class="pull-right"><a class="text-secondary" style = "padding: 5px" href="<?php echo $link3; ?>"> <?php echo $post['current_status'];?>
-                  </a></span>
-
-            <?php
-
-               if($post['name']!=$user){
-            ?>
-
-
-
-            <?php } ?>
+                        if($type == 'idea'){
+                          if($post['name']==$user){
+                          ?>
+                             <span class="pull-right"><a class="text-secondary" style = "padding: 5px" href="<?php echo "status.php?post_id=".$post_id; ?>"> <?php echo $post['current_status'];?>
+                             </a></span>
+                         
+                       <?php } else {?>
+           
+                          
+                         <span class="pull-right"><a class="text-secondary" style = "padding: 5px" > <?php echo $post['current_status'];?>
+                             </a></span>
+                       
+                             
+                        
+           
+                       <?php }} ?>
               <span class="pull-right"><a class="text-secondary" style = "padding: 5px" href=<?php     echo "comment.php?post_id=".$post_id; ?>>  comment  </a></span>
 
 
@@ -98,7 +97,15 @@
                   $query5 = "SELECT * from contributors where post_id = '$post_id' and c_name = '$user' ";
 
                   $result5 = mysqli_query($conn,$query5);
-                  if(mysqli_num_rows($result5)==0){
+                  $q6 = "select current_status from post where post_id = '$post_id'";
+                  $r6 = mysqli_query($conn,$q6);
+                  $rr6 = $r6->fetch_assoc();
+                  $rrr = $rr6['current_status'];
+                  $result5 = mysqli_query($conn,$query5);
+                  if(mysqli_num_rows($result5)==0 && $rrr == 'In progress'){
+
+                  }
+                  else if(mysqli_num_rows($result5)==0){
                    echo 'Contribute(10 MWpoints)';
                   }
                   else{
