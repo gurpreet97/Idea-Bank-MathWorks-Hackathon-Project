@@ -31,10 +31,11 @@ file added by Vishal
         $sql1 = "INSERT into purchases values ( '$purchase_id','$user','$offer_id','$offerCost', CURRENT_TIMESTAMP)";
         $sql2 = "UPDATE user set MWpoints = '$curr_mw_points' where name = '$user'";
         if(mysqli_query($conn,$sql1) && mysqli_query($conn,$sql2)){
-            redirect_to("home.php");
+            redirect_to("redeem.php");
         }
         else{
             echo "Error: " . $conn->error;
+            redirect_to("home.php");
         }
     }
     else{

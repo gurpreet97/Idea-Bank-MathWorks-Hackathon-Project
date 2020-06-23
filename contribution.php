@@ -38,6 +38,7 @@
               ?>
                 <div class="panel panel-default">
             <div class="panel-footer">
+            <span class="label label-primary"><?php echo $type ?></span>
               <span><?php echo $creation_type; ?> on <?php echo $post['post_creation_time']; ?> by <?php echo $post['name']; ?></span> 
             </div>
             <div class="panel-body">
@@ -57,11 +58,11 @@
                   echo $MWpoints['contr']." MWpoints";
                 ?>
                 </a></span>
-                <span class="pull-left"><a class="text-secondary" style = "padding: 5px" href=<?php     echo "comment.php?post_id=".$post_id; ?>> 
-                <?php 
-                  echo $num_comm['comments']." Comments";
-                ?>  
-               </a></span>
+                <span class="pull-left"><a class="text-secondary" style="padding: 5px" href=<?php echo "comment.php?post_id=" . $post_id; ?>> Comment
+                      <span class="badge"><?php
+                                          echo $num_comm['comments'];
+                                          ?> </span>
+                    </a></span>
                
                <?php 
 
@@ -89,10 +90,9 @@
                         
            
                        <?php }} ?>
-              <span class="pull-right"><a class="text-secondary" style = "padding: 5px" href=<?php     echo "comment.php?post_id=".$post_id; ?>>  comment  </a></span>
 
 
-              <span class="pull-right"><a class="text-primary" style = "padding: 5px" href= <?php     echo "contribute_post.php?post_id=".$post_id; ?> >
+              <span class="pull-right">
                 <?php  
                   $query5 = "SELECT * from contributors where post_id = '$post_id' and c_name = '$user' ";
 
@@ -106,13 +106,19 @@
 
                   }
                   else if(mysqli_num_rows($result5)==0){
+                    ?>
+                    <a class="text-primary" style = "padding: 5px" href= <?php     echo "contribute_post.php?post_id=".$post_id; ?> >
+                    <?php
                    echo 'Contribute(10 MWpoints)';
+                   ?>
+                   </a>
+                   <?php
                   }
                   else{
                     echo 'Already contributed';
                   }
                 ?>    
-              </a></span>
+              </span>
 
             <?php } ?>
 
